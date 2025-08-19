@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SpectrumAI Structured Data Viewer</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -24,27 +26,48 @@
     }
     .card {
       background: white;
-      padding: 15px;
+      padding: 20px;
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
     .timestamp {
       font-size: 0.85em;
       color: #555;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
     }
-    .analysis-text {
+    .content-area {
       color: #333;
       font-size: 1em;
       line-height: 1.5;
       white-space: pre-wrap;
       word-break: break-word;
     }
+    .content-area pre {
+      margin: 0;
+      font-family: monospace;
+      font-size: 0.9em;
+      background: #eee;
+      padding: 10px;
+      border-radius: 4px;
+    }
     .empty {
       text-align: center;
       color: #888;
       font-size: 1.1em;
       margin-top: 50px;
+    }
+    .download-btn {
+      margin-top: 15px;
+      padding: 8px 15px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9em;
+    }
+    .download-btn:hover {
+      background-color: #0056b3;
     }
   </style>
 </head>
@@ -74,17 +97,52 @@
           ts.className = 'timestamp';
           ts.textContent = `Received at: ${new Date(event.timestamp).toLocaleString()}`;
           
-          const analysisDiv = document.createElement('div');
-          analysisDiv.className = 'analysis-text';
+          const contentArea = document.createElement('div');
+          contentArea.className = 'content-area';
           
-          if (event.analysis && event.analysis.summary) {
-            analysisDiv.textContent = event.analysis.summary;
+          const analysisText = event.analysis && event.analysis.summary ? event.analysis.summary : null;
+          const debugMessage = "No structured data found. Stored raw payload for debugging.";
+          let contentForPDF = '';
+
+          // 1. (Conditional Display)
+          if (analysisText && analysisText !== debugMessage) {
+            contentArea.textContent = analysisText;
+            contentForPDF = analysisText;
           } else {
-            analysisDiv.textContent = 'Analysis not available.';
+            const rawJsonString = JSON.stringify(event, null, 2);
+            contentArea.innerHTML = `<pre>${rawJsonString}</pre>`;
+            contentForPDF = rawJsonString;
           }
 
           card.appendChild(ts);
-          card.appendChild(analysisDiv);
+          card.appendChild(contentArea);
+
+          // 2. (PDF Download Button)
+          const pdfButton = document.createElement('button');
+          pdfButton.className = 'download-btn';
+          pdfButton.textContent = 'Download Report as PDF';
+          
+          pdfButton.addEventListener('click', () => {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.setFontSize(18);
+            doc.text("SpectrumAI Call Report", 14, 22);
+
+            doc.setFontSize(11);
+            doc.setTextColor(100);
+            doc.text(ts.textContent, 14, 32);
+
+            doc.setFontSize(10);
+            doc.setTextColor(0);
+    
+            const lines = doc.splitTextToSize(contentForPDF, 180);
+            doc.text(lines, 14, 45);
+
+            doc.save(`SpectrumAI-Report-${event.timestamp}.pdf`);
+          });
+
+          card.appendChild(pdfButton);
           container.appendChild(card);
         });
       } catch (err) {
