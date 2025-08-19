@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spectrum AI - Technical Training</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <title>Spectrum - Technical Training & EdTech Solutions</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", sans-serif;
+        color: #333;
+      }
+      header {
+        background: #0056d2;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+      }
+      nav a {
+        color: white;
+        margin: 0 15px;
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .hero {
+        position: relative;
+        background: url("https://images.unsplash.com/photo-1551434678-e076c223a692")
+          center/cover no-repeat;
+        height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-align: center;
+      }
+      .hero::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+      }
+      .hero-content {
+        position: relative;
+        z-index: 1;
+      }
+      .hero h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+      }
+      .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+      }
+      .cta-btn {
+        background: #ff9800;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+      .about {
+        display: flex;
+        align-items: center;
+        padding: 50px;
+        gap: 30px;
+        flex-wrap: wrap;
+        background: #f9f9f9;
+      }
+      .about img {
+        border-radius: 15px;
+        width: 350px;
+        height: auto;
+      }
+      .about-text {
+        max-width: 600px;
+      }
+      .about-text h2 {
+        margin-bottom: 15px;
+      }
+      .about-text ul {
+        padding-left: 20px;
+      }
+      .about-text li {
+        margin-bottom: 10px;
+      }
+      footer {
+        background: #0056d2;
+        color: white;
+        padding: 30px;
+        text-align: center;
+      }
+      footer a {
+        color: #ffcc80;
+        text-decoration: none;
+      }
+      pre {
+        background: #1a1a1a;
+        color: #00ff9d;
+        padding: 1rem;
+        border-radius: 6px;
+        overflow-x: auto;
+        white-space: pre-wrap;
+        word-break: break-word;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Spectrum</h1>
+      <p>Your Partner in Technical Training & EdTech Solutions</p>
+      <nav>
+        <a href="#about">About</a> <a href="#strategy">Training Strategy</a>
+        <a href="#contact">Contact</a>
+        <a href="/viewer.html" target="_blank" class="live-feed-btn"
+          >View Incoming Data</a
+        >
+      </nav>
+    </header>
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Empowering Teams with Future-Ready Skills</h1>
+        <p>
+          We provide tailored training solutions to help your teams adapt,
+          innovate, and excel.
+        </p>
+        <button class="cta-btn">Get Training Plan</button>
+      </div>
+    </section>
+    <section class="about">
+      <img
+        src="https://images.unsplash.com/photo-1573497491208-6b1acb260507"
+        alt="Team discussion"
+      />
+      <div class="about-text">
+        <h2>About Spectrum</h2>
+        <ul>
+          <li>
+            Specialized in delivering cutting-edge technical training solutions.
+          </li>
+          <li>
+            Helping organizations upskill, adapt, and thrive in fast-changing
+            markets.
+          </li>
+          <li>
+            Tailored programs for corporate teams to ensure measurable results.
+          </li>
+        </ul>
+      </div>
+    </section>
+    <section style="text-align: center; padding: 40px 0">
+      <h2>Our Training Strategies</h2>
+      <div
+        style="
+          display: flex;
+          justify-content: center;
+          gap: 20px;
+          flex-wrap: wrap;
+        "
+      >
+        <div
+          style="
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 220px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          "
+        >
+          <i
+            class="fas fa-lightbulb"
+            style="font-size: 40px; color: #007bff"
+          ></i>
+          <h4>Awareness</h4>
+          <p>Understand emerging technologies and industry trends.</p>
+        </div>
+        <div
+          style="
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 220px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          "
+        >
+          <i
+            class="fas fa-graduation-cap"
+            style="font-size: 40px; color: #007bff"
+          ></i>
+          <h4>Skill Adaptation</h4>
+          <p>Equip teams to apply skills in real work scenarios.</p>
+        </div>
+        <div
+          style="
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 220px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          "
+        >
+          <i class="fas fa-hammer" style="font-size: 40px; color: #007bff"></i>
+          <h4>Build & Apply</h4>
+          <p>Hands-on projects to strengthen knowledge and innovation.</p>
+        </div>
+        <div
+          style="
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 220px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          "
+        >
+          <i
+            class="fas fa-chart-line"
+            style="font-size: 40px; color: #007bff"
+          ></i>
+          <h4>Benchmark</h4>
+          <p>Evaluate performance and plan continuous improvement.</p>
+        </div>
+      </div>
+    </section>
+    <!-- <!-- Webhook Data Section -->
+    <!-- <section style="padding: 40px; background: #f1f1f1;"> <h2 style="text-align:center;">Live Vapi Data</h2> -->
+    <!-- <pre id="webhook-data">{ waiting for data... }</pre> <!-- </section> -->
+    <footer>
+      <p>
+        Get in Touch<br />
+        Email: <a href="mailto:info@spectrum.com">info@spectrum.com</a> | Call:
+        +1 234 567 890
+      </p>
+      <p>© 2025 Spectrum. All rights reserved.</p>
+    </footer>
+    <!-- Vapi widget -->
+    <vapi-widget
+      public-key="72f92ba2-8e5f-4d3a-b41b-5a0890f6c9e2"
+      assistant-id="d2b5cb23-06dd-43d3-91df-f7368692641e"
+      mode="voice"
+      theme="light"
+      base-bg-color="#ffffff"
+      accent-color="#14B8A6"
+      cta-button-color="#ffffff"
+      cta-button-text-color="#000000"
+      border-radius="large"
+      size="full"
+      position="bottom-right"
+      title="Spectrum AI"
+      start-button-text="Start"
+      end-button-text="End Call"
+      chat-first-message="Hey, How can I help you today?"
+      chat-placeholder="Type your message..."
+      voice-show-transcript="true"
+      consent-required="true"
+      consent-title="Terms and conditions"
+      consent-content="By clicking Agree, I consent to the recording, storage, and sharing of my communications."
+      consent-storage-key="vapi_widget_consent"
+    ></vapi-widget>
+    <script
+      src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js"
+      async
+      type="text/javascript"
+    ></script>
+    <!-- Fetch webhook data every 2s -->
+    <script>
+      async function loadWebhookData() {
+        try {
+          const res = await fetch("/api/vapi");
+          const json = await res.json();
+          document.getElementById("webhook-data").textContent = JSON.stringify(
+            json,
+            null,
+            2
+          );
+        } catch (e) {
+          document.getElementById("webhook-data").textContent =
+            "Error loading data";
+        }
+      }
+      loadWebhookData();
+      setInterval(loadWebhookData, 2000);
+    </script>
+  </body>
+</html>

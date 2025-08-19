@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SpectrumAI Structured Data Viewer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f8;
+      padding: 20px;
+      margin: 0;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    #data-container {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .card {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .timestamp {
+      font-size: 0.85em;
+      color: #555;
+      margin-bottom: 8px;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 10px;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 0.9em;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .empty {
+      text-align: center;
+      color: #888;
+      font-size: 1.1em;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <h1>SpectrumAI Structured Data Feed</h1>
+  <div id="data-container"></div>
+
+  <script>
+    async function fetchData() {
+      try {
+        const res = await fetch('/api/webhook');
+        const json = await res.json();
+
+        const container = document.getElementById('data-container');
+        container.innerHTML = '';
+
+        if (!json || json.length === 0) {
+          container.innerHTML = '<div class="empty">No structured data received yet...</div>';
+          return;
+        }
+
+        json.forEach(event => {
+          const card = document.createElement('div');
+          card.className = 'card';
+
+          const ts = document.createElement('div');
+          ts.className = 'timestamp';
+          ts.textContent = `Received at: ${new Date(event.timestamp).toLocaleString()}`;
+
+          const pre = document.createElement('pre');
+          pre.textContent = JSON.stringify(event.structuredData, null, 2);
+
+          card.appendChild(ts);
+          card.appendChild(pre);
+          container.appendChild(card);
+        });
+      } catch (err) {
+        console.error('Error fetching data:', err);
+      }
+    }
+
+    setInterval(fetchData, 5000);
+    fetchData();
+  </script>
+</body>
+</html>
