@@ -68,24 +68,35 @@
 
     async function getPdfUrl() {
       try {
-        // This endpoint should return the latest PDF URL from your server
+        // This endpoint returns the latest data from your server
         const response = await fetch('/api/webhook'); 
-        const data = await response.json();
+        const dataArray = await response.json();
+        
+        // Ensure the response is an array and has content
+        if (!dataArray || dataArray.length === 0) {
+            return;
+        }
 
-        // Check if there is a URL and if it's a new one
-        if (data.pdfUrl && data.pdfUrl !== currentPdfUrl) {
-          console.log('New PDF URL received:', data.pdfUrl);
-          currentPdfUrl = data.pdfUrl;
+        // Get the first and most recent object from the array
+        const latestData = dataArray[0]; 
+        
+        // **This is the corrected part:** It looks for the URL in the correct nested location
+        const newPdfUrl = latestData.structuredData ? latestData.structuredData.pdfFile : null;
 
-          // Update the embedded PDF viewer
+        // Check if a new URL was found
+        if (newPdfUrl && newPdfUrl !== currentPdfUrl) {
+          console.log('New PDF URL received:', newPdfUrl);
+          currentPdfUrl = newPdfUrl;
+
+          // Update the embedded PDF viewer's source
           pdfEmbed.src = currentPdfUrl;
           pdfEmbed.style.display = 'block';
 
-          // Update the download button
+          // Update the download button's link
           downloadBtn.href = currentPdfUrl;
           downloadBtn.style.display = 'inline-block';
 
-          // Hide the placeholder text
+          // Hide the "Waiting..." placeholder text
           placeholder.style.display = 'none';
         }
       } catch (err) {
@@ -93,9 +104,10 @@
       }
     }
 
-    // Check for a new PDF URL every 5 seconds
+    // Check for a new PDF every 5 seconds
     setInterval(getPdfUrl, 5000);
-    // Also run once on page load
+    
+    // Also check once immediately when the page loads
     getPdfUrl();
   </script>
 </body>
