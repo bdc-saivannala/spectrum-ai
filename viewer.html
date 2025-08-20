@@ -2,156 +2,101 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SpectrumAI Structured Data Viewer</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDF Report Viewer</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       background: #f4f4f8;
       padding: 20px;
       margin: 0;
+      color: #333;
     }
     h1 {
       text-align: center;
-      color: #333;
     }
-    #data-container {
+    #pdf-container {
       max-width: 900px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    .card {
+      margin: 20px auto;
       background: white;
-      padding: 20px;
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    .timestamp {
-      font-size: 0.85em;
-      color: #555;
-      margin-bottom: 12px;
-    }
-    .content-area {
-      color: #333;
-      font-size: 1em;
-      line-height: 1.5;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-    .content-area pre {
-      margin: 0;
-      font-family: monospace;
-      font-size: 0.9em;
-      background: #eee;
-      padding: 10px;
-      border-radius: 4px;
-    }
-    .empty {
+      padding: 20px;
       text-align: center;
-      color: #888;
-      font-size: 1.1em;
-      margin-top: 50px;
     }
-    .download-btn {
+    #pdf-embed {
+      width: 100%;
+      height: 75vh; /* 75% of the viewport height */
+      border: 1px solid #ddd;
+      display: none; /* Hidden by default */
+    }
+    #placeholder {
+      font-size: 1.1em;
+      color: #888;
+      padding: 50px 0;
+    }
+    #download-btn {
       margin-top: 15px;
-      padding: 8px 15px;
+      padding: 10px 20px;
       border: none;
       background-color: #007bff;
       color: white;
       border-radius: 5px;
       cursor: pointer;
-      font-size: 0.9em;
+      font-size: 1em;
+      text-decoration: none;
+      display: none; /* Hidden by default */
     }
-    .download-btn:hover {
+    #download-btn:hover {
       background-color: #0056b3;
     }
   </style>
 </head>
 <body>
-  <h1>SpectrumAI Structured Data Feed</h1>
-  <div id="data-container"></div>
+  <h1>Latest PDF Report</h1>
+  <div id="pdf-container">
+    <div id="placeholder">Waiting for the latest PDF report...</div>
+    <embed id="pdf-embed" type="application/pdf">
+    <a id="download-btn" href="#" download="report.pdf">Download PDF</a>
+  </div>
 
   <script>
-    async function fetchData() {
+    const pdfEmbed = document.getElementById('pdf-embed');
+    const downloadBtn = document.getElementById('download-btn');
+    const placeholder = document.getElementById('placeholder');
+    let currentPdfUrl = '';
+
+    async function getPdfUrl() {
       try {
-        const res = await fetch('/api/webhook');
-        const json = await res.json();
+        // This endpoint should return the latest PDF URL from your server
+        const response = await fetch('/api/webhook'); 
+        const data = await response.json();
 
-        const container = document.getElementById('data-container');
-        container.innerHTML = '';
+        // Check if there is a URL and if it's a new one
+        if (data.pdfUrl && data.pdfUrl !== currentPdfUrl) {
+          console.log('New PDF URL received:', data.pdfUrl);
+          currentPdfUrl = data.pdfUrl;
 
-        if (!json || json.length === 0) {
-          container.innerHTML = '<div class="empty">No structured data received yet...</div>';
-          return;
+          // Update the embedded PDF viewer
+          pdfEmbed.src = currentPdfUrl;
+          pdfEmbed.style.display = 'block';
+
+          // Update the download button
+          downloadBtn.href = currentPdfUrl;
+          downloadBtn.style.display = 'inline-block';
+
+          // Hide the placeholder text
+          placeholder.style.display = 'none';
         }
-
-        json.forEach(event => {
-          const card = document.createElement('div');
-          card.className = 'card';
-
-          const ts = document.createElement('div');
-          ts.className = 'timestamp';
-          ts.textContent = `Received at: ${new Date(event.timestamp).toLocaleString()}`;
-          
-          const contentArea = document.createElement('div');
-          contentArea.className = 'content-area';
-          
-          const analysisText = event.analysis && event.analysis.summary ? event.analysis.summary : null;
-          const debugMessage = "No structured data found. Stored raw payload for debugging.";
-          let contentForPDF = '';
-
-          // 1. (Conditional Display)
-          if (analysisText && analysisText !== debugMessage) {
-            contentArea.textContent = analysisText;
-            contentForPDF = analysisText;
-          } else {
-            const rawJsonString = JSON.stringify(event, null, 2);
-            contentArea.innerHTML = `<pre>${rawJsonString}</pre>`;
-            contentForPDF = rawJsonString;
-          }
-
-          card.appendChild(ts);
-          card.appendChild(contentArea);
-
-          // 2. (PDF Download Button)
-          const pdfButton = document.createElement('button');
-          pdfButton.className = 'download-btn';
-          pdfButton.textContent = 'Download Report as PDF';
-          
-          pdfButton.addEventListener('click', () => {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-
-            doc.setFontSize(18);
-            doc.text("SpectrumAI Call Report", 14, 22);
-
-            doc.setFontSize(11);
-            doc.setTextColor(100);
-            doc.text(ts.textContent, 14, 32);
-
-            doc.setFontSize(10);
-            doc.setTextColor(0);
-    
-            const lines = doc.splitTextToSize(contentForPDF, 180);
-            doc.text(lines, 14, 45);
-
-            doc.save(`SpectrumAI-Report-${event.timestamp}.pdf`);
-          });
-
-          card.appendChild(pdfButton);
-          container.appendChild(card);
-        });
       } catch (err) {
-        console.error('Error fetching data:', err);
+        console.error('Error fetching PDF URL:', err);
       }
     }
 
-    setInterval(fetchData, 5000);
-    fetchData();
+    // Check for a new PDF URL every 5 seconds
+    setInterval(getPdfUrl, 5000);
+    // Also run once on page load
+    getPdfUrl();
   </script>
 </body>
 </html>
