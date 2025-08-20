@@ -26,7 +26,7 @@
     }
     #pdf-embed {
       width: 100%;
-      height: 75vh; /* 75% of the viewport height */
+      height: 75vh;
       border: 1px solid #ddd;
       display: none; /* Hidden by default */
     }
@@ -68,22 +68,17 @@
 
     async function getPdfUrl() {
       try {
-        // This endpoint returns the latest data from your server
         const response = await fetch('/api/webhook'); 
         const dataArray = await response.json();
         
-        // Ensure the response is an array and has content
         if (!dataArray || dataArray.length === 0) {
             return;
         }
 
-        // Get the first and most recent object from the array
-        const latestData = dataArray[0]; 
-        
-        // **This is the corrected part:** It looks for the URL in the correct nested location
-        const newPdfUrl = latestData.structuredData ? latestData.structuredData.pdfFile : null;
+        const latestData = dataArray[0];
+        // This is the corrected part: It looks for your URL, now named "pdfUrl"
+        const newPdfUrl = latestData.raw ? latestData.raw.pdfUrl : null;
 
-        // Check if a new URL was found
         if (newPdfUrl && newPdfUrl !== currentPdfUrl) {
           console.log('New PDF URL received:', newPdfUrl);
           currentPdfUrl = newPdfUrl;
