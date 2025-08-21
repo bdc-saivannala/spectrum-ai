@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Spectrum AI - Technical Training</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
     <style>
       body {
         margin: 0;
@@ -21,6 +25,10 @@
         margin: 0 15px;
         text-decoration: none;
         font-weight: 500;
+        transition: color 0.3s;
+      }
+      nav a:hover {
+        color: #ff9800;
       }
       .hero {
         position: relative;
@@ -62,6 +70,10 @@
         border-radius: 5px;
         font-size: 1rem;
         cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .cta-btn:hover {
+        background-color: #e68900;
       }
       .about {
         display: flex;
@@ -70,10 +82,12 @@
         gap: 30px;
         flex-wrap: wrap;
         background: #f9f9f9;
+        justify-content: center;
       }
       .about img {
         border-radius: 15px;
-        width: 350px;
+        width: 100%;
+        max-width: 350px;
         height: auto;
       }
       .about-text {
@@ -98,9 +112,10 @@
         color: #ffcc80;
         text-decoration: none;
       }
-      
-      /* --- Notification Style --- */
+
+      /* --- NOTIFICATION STYLE ADDED HERE --- */
       .live-feed-btn.notification {
+        position: relative;
         animation: pulse 1.5s infinite;
         border-radius: 5px;
         box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.7);
@@ -124,12 +139,14 @@
       <h1>Spectrum</h1>
       <p>Your Partner in Technical Training & EdTech Solutions</p>
       <nav>
-        <a href="#about">About</a>
-        <a href="#strategy">Training Strategy</a>
+        <a href="#about">About</a> <a href="#strategy">Training Strategy</a>
         <a href="#contact">Contact</a>
-        <a href="/views.html" target="_blank" class="live-feed-btn">Download Report</a>
+        <a href="/viewer.html" target="_blank" class="live-feed-btn"
+          >Download Report</a
+        >
       </nav>
     </header>
+
     <section class="hero">
       <div class="hero-content">
         <h1>Empowering Teams with Future-Ready Skills</h1>
@@ -140,7 +157,8 @@
         <button class="cta-btn">Get Training Plan</button>
       </div>
     </section>
-    <section class="about">
+
+    <section class="about" id="about">
       <img
         src="https://images.unsplash.com/photo-1573497491208-6b1acb260507"
         alt="Team discussion"
@@ -148,18 +166,96 @@
       <div class="about-text">
         <h2>About Spectrum</h2>
         <ul>
-          <li>Specialized in delivering cutting-edge technical training solutions.</li>
-          <li>Helping organizations upskill, adapt, and thrive in fast-changing markets.</li>
-          <li>Tailored programs for corporate teams to ensure measurable results.</li>
+          <li>
+            Specialized in delivering cutting-edge technical training solutions.
+          </li>
+          <li>
+            Helping organizations upskill, adapt, and thrive in fast-changing
+            markets.
+          </li>
+          <li>
+            Tailored programs for corporate teams to ensure measurable results.
+          </li>
         </ul>
       </div>
     </section>
-    <section style="text-align: center; padding: 40px 0">
+
+    <section style="text-align: center; padding: 40px 20px" id="strategy">
       <h2>Our Training Strategies</h2>
-      <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+      <div
+        style="
+          display: flex;
+          justify-content: center;
+          gap: 20px;
+          flex-wrap: wrap;
+          margin-top: 20px;
+        "
+      >
+        <div
+          style="
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 220px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          "
+        >
+          <i
+            class="fas fa-lightbulb"
+            style="font-size: 40px; color: #007bff"
+          ></i>
+          <h4>Awareness</h4>
+          <p>Understand emerging technologies and industry trends.</p>
         </div>
+        <div
+          style="
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 220px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          "
+        >
+          <i
+            class="fas fa-graduation-cap"
+            style="font-size: 40px; color: #007bff"
+          ></i>
+          <h4>Skill Adaptation</h4>
+          <p>Equip teams to apply skills in real work scenarios.</p>
+        </div>
+        <div
+          style="
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 220px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          "
+        >
+          <i class="fas fa-hammer" style="font-size: 40px; color: #007bff"></i>
+          <h4>Build & Apply</h4>
+          <p>Hands-on projects to strengthen knowledge and innovation.</p>
+        </div>
+        <div
+          style="
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 220px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          "
+        >
+          <i
+            class="fas fa-chart-line"
+            style="font-size: 40px; color: #007bff"
+          ></i>
+          <h4>Benchmark</h4>
+          <p>Evaluate performance and plan continuous improvement.</p>
+        </div>
+      </div>
     </section>
-    <footer>
+
+    <footer id="contact">
       <p>
         Get in Touch<br />
         Email: <a href="mailto:info@spectrum.com">info@spectrum.com</a> | Call:
@@ -167,6 +263,16 @@
       </p>
       <p>© 2025 Spectrum. All rights reserved.</p>
     </footer>
+
+    <vapi-widget
+      public-key="72f92ba2-8e5f-4d3a-b41b-5a0890f6c9e2"
+      assistant-id="d2b5cb23-06dd-43d3-91df-f7368692641e"
+    ></vapi-widget>
+    <script
+      src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js"
+      async
+      type="text/javascript"
+    ></script>
 
     <script>
       document.addEventListener('DOMContentLoaded', () => {
