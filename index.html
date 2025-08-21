@@ -314,9 +314,9 @@
           updateButtonState(); // Instantly hide the bubble
         });
 
-        // Listen for changes from other tabs (like views.html) in real-time
+        // Listen for changes from other tabs (like viewer.html) in real-time
         window.addEventListener('storage', (event) => {
-          if (event.key === 'newReportavailable') { // Corrected this to lowercase 'a' to match views.html
+          if (event.key === 'newReportAvailable') { // Corrected this to lowercase 'a' to match views.html
             updateButtonState();
           }
         });
