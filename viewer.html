@@ -76,13 +76,14 @@
         }
 
         const latestData = dataArray[0];
-        
-        // *** THIS IS THE CORRECTED LINE ***
         const newPdfUrl = latestData.structuredData && latestData.structuredData.raw ? latestData.structuredData.raw.pdfUrl : null;
 
         if (newPdfUrl && newPdfUrl !== currentPdfUrl) {
           console.log('New PDF URL received:', newPdfUrl);
           currentPdfUrl = newPdfUrl;
+
+          // --- Send notification signal to other tabs ---
+          localStorage.setItem('newReportAvailable', 'true');
 
           // Update the embedded PDF viewer's source
           pdfEmbed.src = currentPdfUrl;
