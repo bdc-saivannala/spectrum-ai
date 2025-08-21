@@ -26,6 +26,7 @@
         text-decoration: none;
         font-weight: 500;
         transition: color 0.3s;
+        position: relative; /* Required for bubble positioning */
       }
       nav a:hover {
         color: #ff9800;
@@ -113,24 +114,22 @@
         text-decoration: none;
       }
 
-      /* --- NOTIFICATION STYLE ADDED HERE --- */
-      .live-feed-btn.notification {
-        position: relative;
-        animation: pulse 1.5s infinite;
-        border-radius: 5px;
-        box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.7);
-      }
-
-      @keyframes pulse {
-        0% {
-          box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.7);
-        }
-        70% {
-          box-shadow: 0 0 0 10px rgba(255, 152, 0, 0);
-        }
-        100% {
-          box-shadow: 0 0 0 0 rgba(255, 152, 0, 0);
-        }
+      /* --- RED BUBBLE NOTIFICATION STYLE --- */
+      .notification-bubble {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        width: 18px;
+        height: 18px;
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        font-size: 12px;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid white;
       }
     </style>
   </head>
@@ -294,24 +293,30 @@
       document.addEventListener('DOMContentLoaded', () => {
         const reportButton = document.querySelector('.live-feed-btn');
 
+        // Create the notification bubble element dynamically
+        const notificationBubble = document.createElement('span');
+        notificationBubble.className = 'notification-bubble';
+        reportButton.appendChild(notificationBubble);
+        notificationBubble.style.display = 'none'; // Hide it initially
+
         // Function to check storage and update the button's appearance
         function updateButtonState() {
           if (localStorage.getItem('newReportAvailable') === 'true') {
-            reportButton.classList.add('notification');
+            notificationBubble.style.display = 'flex'; // Show the bubble
           } else {
-            reportButton.classList.remove('notification');
+            notificationBubble.style.display = 'none'; // Hide the bubble
           }
         }
 
         // When the user clicks the button, remove the notification
         reportButton.addEventListener('click', () => {
           localStorage.setItem('newReportAvailable', 'false');
-          updateButtonState(); // Instantly remove the glow
+          updateButtonState(); // Instantly hide the bubble
         });
 
         // Listen for changes from other tabs (like views.html) in real-time
         window.addEventListener('storage', (event) => {
-          if (event.key === 'newReportAvailable') {
+          if (event.key === 'newReportavailable') { // Corrected this to lowercase 'a' to match views.html
             updateButtonState();
           }
         });
