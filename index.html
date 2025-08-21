@@ -4,8 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Spectrum AI - Technical Training</title>
-    <link rel="stylesheet" href="/styles.css" />
-    <title>Spectrum - Technical Training & EdTech Solutions</title>
     <style>
       body {
         margin: 0;
@@ -100,15 +98,24 @@
         color: #ffcc80;
         text-decoration: none;
       }
-      pre {
-        background: #1a1a1a;
-        color: #00ff9d;
-        padding: 1rem;
-        border-radius: 6px;
-        overflow-x: auto;
-        white-space: pre-wrap;
-        word-break: break-word;
-        font-size: 0.9rem;
+      
+      /* --- Notification Style --- */
+      .live-feed-btn.notification {
+        animation: pulse 1.5s infinite;
+        border-radius: 5px;
+        box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.7);
+      }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.7);
+        }
+        70% {
+          box-shadow: 0 0 0 10px rgba(255, 152, 0, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(255, 152, 0, 0);
+        }
       }
     </style>
   </head>
@@ -117,11 +124,10 @@
       <h1>Spectrum</h1>
       <p>Your Partner in Technical Training & EdTech Solutions</p>
       <nav>
-        <a href="#about">About</a> <a href="#strategy">Training Strategy</a>
+        <a href="#about">About</a>
+        <a href="#strategy">Training Strategy</a>
         <a href="#contact">Contact</a>
-        <a href="/viewer.html" target="_blank" class="live-feed-btn"
-          >Download Report</a
-        >
+        <a href="/views.html" target="_blank" class="live-feed-btn">Download Report</a>
       </nav>
     </header>
     <section class="hero">
@@ -142,95 +148,17 @@
       <div class="about-text">
         <h2>About Spectrum</h2>
         <ul>
-          <li>
-            Specialized in delivering cutting-edge technical training solutions.
-          </li>
-          <li>
-            Helping organizations upskill, adapt, and thrive in fast-changing
-            markets.
-          </li>
-          <li>
-            Tailored programs for corporate teams to ensure measurable results.
-          </li>
+          <li>Specialized in delivering cutting-edge technical training solutions.</li>
+          <li>Helping organizations upskill, adapt, and thrive in fast-changing markets.</li>
+          <li>Tailored programs for corporate teams to ensure measurable results.</li>
         </ul>
       </div>
     </section>
     <section style="text-align: center; padding: 40px 0">
       <h2>Our Training Strategies</h2>
-      <div
-        style="
-          display: flex;
-          justify-content: center;
-          gap: 20px;
-          flex-wrap: wrap;
-        "
-      >
-        <div
-          style="
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            width: 220px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          "
-        >
-          <i
-            class="fas fa-lightbulb"
-            style="font-size: 40px; color: #007bff"
-          ></i>
-          <h4>Awareness</h4>
-          <p>Understand emerging technologies and industry trends.</p>
+      <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
         </div>
-        <div
-          style="
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            width: 220px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          "
-        >
-          <i
-            class="fas fa-graduation-cap"
-            style="font-size: 40px; color: #007bff"
-          ></i>
-          <h4>Skill Adaptation</h4>
-          <p>Equip teams to apply skills in real work scenarios.</p>
-        </div>
-        <div
-          style="
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            width: 220px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          "
-        >
-          <i class="fas fa-hammer" style="font-size: 40px; color: #007bff"></i>
-          <h4>Build & Apply</h4>
-          <p>Hands-on projects to strengthen knowledge and innovation.</p>
-        </div>
-        <div
-          style="
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            width: 220px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          "
-        >
-          <i
-            class="fas fa-chart-line"
-            style="font-size: 40px; color: #007bff"
-          ></i>
-          <h4>Benchmark</h4>
-          <p>Evaluate performance and plan continuous improvement.</p>
-        </div>
-      </div>
     </section>
-    <!-- <!-- Webhook Data Section -->
-    <!-- <section style="padding: 40px; background: #f1f1f1;"> <h2 style="text-align:center;">Live Vapi Data</h2> -->
-    <!-- <pre id="webhook-data">{ waiting for data... }</pre> <!-- </section> -->
     <footer>
       <p>
         Get in Touch<br />
@@ -239,53 +167,36 @@
       </p>
       <p>© 2025 Spectrum. All rights reserved.</p>
     </footer>
-    <!-- Vapi widget -->
-    <vapi-widget
-      public-key="72f92ba2-8e5f-4d3a-b41b-5a0890f6c9e2"
-      assistant-id="d2b5cb23-06dd-43d3-91df-f7368692641e"
-      mode="voice"
-      theme="light"
-      base-bg-color="#ffffff"
-      accent-color="#14B8A6"
-      cta-button-color="#ffffff"
-      cta-button-text-color="#000000"
-      border-radius="large"
-      size="full"
-      position="bottom-right"
-      title="Spectrum AI"
-      start-button-text="Start"
-      end-button-text="End Call"
-      chat-first-message="Hey, How can I help you today?"
-      chat-placeholder="Type your message..."
-      voice-show-transcript="true"
-      consent-required="true"
-      consent-title="Terms and conditions"
-      consent-content="By clicking Agree, I consent to the recording, storage, and sharing of my communications."
-      consent-storage-key="vapi_widget_consent"
-    ></vapi-widget>
-    <script
-      src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js"
-      async
-      type="text/javascript"
-    ></script>
-    <!-- Fetch webhook data every 2s -->
+
     <script>
-      async function loadWebhookData() {
-        try {
-          const res = await fetch("/api/vapi");
-          const json = await res.json();
-          document.getElementById("webhook-data").textContent = JSON.stringify(
-            json,
-            null,
-            2
-          );
-        } catch (e) {
-          document.getElementById("webhook-data").textContent =
-            "Error loading data";
+      document.addEventListener('DOMContentLoaded', () => {
+        const reportButton = document.querySelector('.live-feed-btn');
+
+        // Function to check storage and update the button's appearance
+        function updateButtonState() {
+          if (localStorage.getItem('newReportAvailable') === 'true') {
+            reportButton.classList.add('notification');
+          } else {
+            reportButton.classList.remove('notification');
+          }
         }
-      }
-      loadWebhookData();
-      setInterval(loadWebhookData, 2000);
+
+        // When the user clicks the button, remove the notification
+        reportButton.addEventListener('click', () => {
+          localStorage.setItem('newReportAvailable', 'false');
+          updateButtonState(); // Instantly remove the glow
+        });
+
+        // Listen for changes from other tabs (like views.html) in real-time
+        window.addEventListener('storage', (event) => {
+          if (event.key === 'newReportAvailable') {
+            updateButtonState();
+          }
+        });
+
+        // Check the button state when the page first loads
+        updateButtonState();
+      });
     </script>
   </body>
 </html>
