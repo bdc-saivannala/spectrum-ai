@@ -77,13 +77,22 @@
 
         const latestData = dataArray[0];
         const newPdfUrl = latestData.structuredData && latestData.structuredData.raw ? latestData.structuredData.raw.pdfUrl : null;
+        const newTimestamp = latestData.timestamp; // Get the timestamp of the new report
 
         if (newPdfUrl && newPdfUrl !== currentPdfUrl) {
           console.log('New PDF URL received:', newPdfUrl);
           currentPdfUrl = newPdfUrl;
 
-          // --- Send notification signal to other tabs ---
-          localStorage.setItem('newReportAvailable', 'true');
+          // --- SMARTER NOTIFICATION LOGIC ---
+          // Get the last timestamp we announced from storage. Default to 0 if it's not set.
+          const lastAnnouncedTimestamp = localStorage.getItem('lastAnnouncedTimestamp') || 0;
+
+          // Only set a new notification if the current report's timestamp is newer.
+          if (newTimestamp > lastAnnouncedTimestamp) {
+            console.log('This is a brand-new report. Sending notification.');
+            localStorage.setItem('newReportAvailable', 'true');
+            localStorage.setItem('lastAnnouncedTimestamp', newTimestamp); // Remember this timestamp
+          }
 
           // Update the embedded PDF viewer's source
           pdfEmbed.src = currentPdfUrl;
