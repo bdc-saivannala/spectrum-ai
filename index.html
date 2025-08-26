@@ -1,345 +1,661 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Spectrum AI - Technical Training</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-    />
-    <style>
-      body {
-        margin: 0;
-        font-family: "Segoe UI", sans-serif;
-        color: #333;
-      }
-      header {
-        background: #0056d2;
-        color: white;
-        padding: 10px 0;
-        text-align: center;
-      }
-      nav a {
-        color: white;
-        margin: 0 15px;
-        text-decoration: none;
-        font-weight: 500;
-        transition: color 0.3s;
-        position: relative; /* Required for bubble positioning */
-      }
-      nav a:hover {
-        color: #ff9800;
-      }
-      .hero {
-        position: relative;
-        background: url("https://images.unsplash.com/photo-1551434678-e076c223a692")
-          center/cover no-repeat;
-        height: 400px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        text-align: center;
-      }
-      .hero::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-      }
-      .hero-content {
-        position: relative;
-        z-index: 1;
-      }
-      .hero h1 {
-        font-size: 2.5rem;
-        margin-bottom: 10px;
-      }
-      .hero p {
-        font-size: 1.2rem;
-        margin-bottom: 20px;
-      }
-      .cta-btn {
-        background: #ff9800;
-        color: white;
-        padding: 12px 20px;
-        border: none;
-        border-radius: 5px;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: background-color 0.3s;
-      }
-      .cta-btn:hover {
-        background-color: #e68900;
-      }
-      .about {
-        display: flex;
-        align-items: center;
-        padding: 50px;
-        gap: 30px;
-        flex-wrap: wrap;
-        background: #f9f9f9;
-        justify-content: center;
-      }
-      .about img {
-        border-radius: 15px;
-        width: 100%;
-        max-width: 350px;
-        height: auto;
-      }
-      .about-text {
-        max-width: 600px;
-      }
-      .about-text h2 {
-        margin-bottom: 15px;
-      }
-      .about-text ul {
-        padding-left: 20px;
-      }
-      .about-text li {
-        margin-bottom: 10px;
-      }
-      footer {
-        background: #0056d2;
-        color: white;
-        padding: 30px;
-        text-align: center;
-      }
-      footer a {
-        color: #ffcc80;
-        text-decoration: none;
-      }
 
-      /* --- RED BUBBLE NOTIFICATION STYLE --- */
-      .notification-bubble {
-        position: absolute;
-        top: -8px;
-        right: -8px;
-        width: 18px;
-        height: 18px;
-        background-color: red;
-        color: white;
-        border-radius: 50%;
-        font-size: 12px;
-        font-weight: bold;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: 2px solid white;
-      }
-    </style>
-  </head>
-  <body>
-    <header>
-      <h1>Spectrum</h1>
-      <p>Your Partner in Technical Training & EdTech Solutions</p>
-      <nav>
-        <a href="#about">About</a> <a href="#strategy">Training Strategy</a>
-        <a href="#contact">Contact</a>
-        <a href="/viewer.html" target="_blank" class="live-feed-btn"
-          >Download Report</a
-        >
-      </nav>
-    </header>
+  <head>
 
-    <section class="hero">
-      <div class="hero-content">
-        <h1>Empowering Teams with Future-Ready Skills</h1>
-        <p>
-          We provide tailored training solutions to help your teams adapt,
-          innovate, and excel.
-        </p>
-        <button class="cta-btn">Get Training Plan</button>
-      </div>
-    </section>
+    <meta charset="UTF-8" />
 
-    <section style="padding: 50px 20px; background-color: #fff">
-      <h2 style="text-align: center; margin-bottom: 30px">
-        Talk with Our AI Assistant
-      </h2>
-      <div
-        id="vapi-container"
-        style="
-          max-width: 400px;
-          height: 600px;
-          margin: auto;
-          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-          border-radius: 12px;
-          overflow: hidden;
-        "
-      ></div>
-    </section>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <section class="about" id="about">
-      <img
-        src="https://images.unsplash.com/photo-1573497491208-6b1acb260507"
-        alt="Team discussion"
-      />
-      <div class="about-text">
-        <h2>About Spectrum</h2>
-        <ul>
-          <li>
-            Specialized in delivering cutting-edge technical training solutions.
-          </li>
-          <li>
-            Helping organizations upskill, adapt, and thrive in fast-changing
-            markets.
-          </li>
-          <li>
-            Tailored programs for corporate teams to ensure measurable results.
-          </li>
-        </ul>
-      </div>
-    </section>
+    <title>Spectrum AI - Technical Training</title>
 
-    <section style="text-align: center; padding: 40px 20px" id="strategy">
-      <h2>Our Training Strategies</h2>
-      <div
-        style="
-          display: flex;
-          justify-content: center;
-          gap: 20px;
-          flex-wrap: wrap;
-          margin-top: 20px;
-        "
-      >
-        <div
-          style="
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            width: 220px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          "
-        >
-          <i
-            class="fas fa-lightbulb"
-            style="font-size: 40px; color: #007bff"
-          ></i>
-          <h4>Awareness</h4>
-          <p>Understand emerging technologies and industry trends.</p>
-        </div>
-        <div
-          style="
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            width: 220px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          "
-        >
-          <i
-            class="fas fa-graduation-cap"
-            style="font-size: 40px; color: #007bff"
-          ></i>
-          <h4>Skill Adaptation</h4>
-          <p>Equip teams to apply skills in real work scenarios.</p>
-        </div>
-        <div
-          style="
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            width: 220px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          "
-        >
-          <i class="fas fa-hammer" style="font-size: 40px; color: #007bff"></i>
-          <h4>Build & Apply</h4>
-          <p>Hands-on projects to strengthen knowledge and innovation.</p>
-        </div>
-        <div
-          style="
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            width: 220px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          "
-        >
-          <i
-            class="fas fa-chart-line"
-            style="font-size: 40px; color: #007bff"
-          ></i>
-          <h4>Benchmark</h4>
-          <p>Evaluate performance and plan continuous improvement.</p>
-        </div>
-      </div>
-    </section>
+    <link
 
-    <footer id="contact">
-      <p>
-        Get in Touch<br />
-        Email: <a href="mailto:info@spectrum.com">info@spectrum.com</a> | Call:
-        +1 234 567 890
-      </p>
-      <p>© 2025 Spectrum. All rights reserved.</p>
-    </footer>
+      rel="stylesheet"
 
-    <script src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js" async type="text/javascript"></script>
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
 
-    <script>
-      // Function to initialize the Vapi Widget
-      function initializeVapiWidget() {
-        if (window.VapiWidget) {
-          const container = document.getElementById("vapi-container");
-          if (container) {
-            window.VapiWidget.init({
-              container: container,
-              public-key="72f92ba2-8e5f-4d3a-b41b-5a0890f6c9e2"
-              assistant-id="d2b5cb23-06dd-43d3-91df-f7368692641e"
-              mode="voice"
-              theme="dark"
-            });
-          }
-        }
-      }
-    
-      // Wait for the DOM and the Vapi script to be ready
-      document.addEventListener("DOMContentLoaded", () => {
-        const vapiScript = document.getElementById('vapi-script');
-        
-        // Check if the script is already loaded
-        if (window.VapiWidget) {
-          initializeVapiWidget();
-        } else {
-          // If not, wait for it to load
-          vapiScript.addEventListener('load', initializeVapiWidget);
-        }
-    
-        // Your existing script for the notification bubble
-        const reportButton = document.querySelector(".live-feed-btn");
-        const notificationBubble = document.createElement("span");
-        notificationBubble.className = "notification-bubble";
-        reportButton.appendChild(notificationBubble);
-        notificationBubble.style.display = "none";
-        
-        function updateButtonState() {
-          if (localStorage.getItem("newReportAvailable") === "true") {
-            notificationBubble.style.display = "flex";
-          } else {
-            notificationBubble.style.display = "none";
-          }
-        }
-        
-        reportButton.addEventListener("click", () => {
-          localStorage.setItem("newReportAvailable", "false");
-          updateButtonState();
-        });
-        
-        window.addEventListener("storage", (event) => {
-          if (event.key === "newReportAvailable") {
-            updateButtonState();
-          }
-        });
-        
-        setInterval(updateButtonState, 2000);
-        updateButtonState();
-      });
-    </script>
-  </body>
+    />
+
+    <style>
+
+      body {
+
+        margin: 0;
+
+        font-family: "Segoe UI", sans-serif;
+
+        color: #333;
+
+      }
+
+      header {
+
+        background: #0056d2;
+
+        color: white;
+
+        padding: 10px 0;
+
+        text-align: center;
+
+      }
+
+      nav a {
+
+        color: white;
+
+        margin: 0 15px;
+
+        text-decoration: none;
+
+        font-weight: 500;
+
+        transition: color 0.3s;
+
+        position: relative; /* Required for bubble positioning */
+
+      }
+
+      nav a:hover {
+
+        color: #ff9800;
+
+      }
+
+      .hero {
+
+        position: relative;
+
+        background: url("https://images.unsplash.com/photo-1551434678-e076c223a692")
+
+          center/cover no-repeat;
+
+        height: 400px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        color: white;
+
+        text-align: center;
+
+      }
+
+      .hero::after {
+
+        content: "";
+
+        position: absolute;
+
+        top: 0;
+
+        left: 0;
+
+        right: 0;
+
+        bottom: 0;
+
+        background: rgba(0, 0, 0, 0.5);
+
+      }
+
+      .hero-content {
+
+        position: relative;
+
+        z-index: 1;
+
+      }
+
+      .hero h1 {
+
+        font-size: 2.5rem;
+
+        margin-bottom: 10px;
+
+      }
+
+      .hero p {
+
+        font-size: 1.2rem;
+
+        margin-bottom: 20px;
+
+      }
+
+      .cta-btn {
+
+        background: #ff9800;
+
+        color: white;
+
+        padding: 12px 20px;
+
+        border: none;
+
+        border-radius: 5px;
+
+        font-size: 1rem;
+
+        cursor: pointer;
+
+        transition: background-color 0.3s;
+
+      }
+
+      .cta-btn:hover {
+
+        background-color: #e68900;
+
+      }
+
+      .about {
+
+        display: flex;
+
+        align-items: center;
+
+        padding: 50px;
+
+        gap: 30px;
+
+        flex-wrap: wrap;
+
+        background: #f9f9f9;
+
+        justify-content: center;
+
+      }
+
+      .about img {
+
+        border-radius: 15px;
+
+        width: 100%;
+
+        max-width: 350px;
+
+        height: auto;
+
+      }
+
+      .about-text {
+
+        max-width: 600px;
+
+      }
+
+      .about-text h2 {
+
+        margin-bottom: 15px;
+
+      }
+
+      .about-text ul {
+
+        padding-left: 20px;
+
+      }
+
+      .about-text li {
+
+        margin-bottom: 10px;
+
+      }
+
+      footer {
+
+        background: #0056d2;
+
+        color: white;
+
+        padding: 30px;
+
+        text-align: center;
+
+      }
+
+      footer a {
+
+        color: #ffcc80;
+
+        text-decoration: none;
+
+      }
+
+
+
+      /* --- RED BUBBLE NOTIFICATION STYLE --- */
+
+      .notification-bubble {
+
+        position: absolute;
+
+        top: -8px;
+
+        right: -8px;
+
+        width: 18px;
+
+        height: 18px;
+
+        background-color: red;
+
+        color: white;
+
+        border-radius: 50%;
+
+        font-size: 12px;
+
+        font-weight: bold;
+
+        display: flex;
+
+        justify-content: center;
+
+        align-items: center;
+
+        border: 2px solid white;
+
+      }
+
+    </style>
+
+  </head>
+
+  <body>
+
+    <header>
+
+      <h1>Spectrum</h1>
+
+      <p>Your Partner in Technical Training & EdTech Solutions</p>
+
+      <nav>
+
+        <a href="#about">About</a> <a href="#strategy">Training Strategy</a>
+
+        <a href="#contact">Contact</a>
+
+        <a href="/viewer.html" target="_blank" class="live-feed-btn"
+
+          >Download Report</a
+
+        >
+
+      </nav>
+
+    </header>
+
+
+
+    <section class="hero">
+
+      <div class="hero-content">
+
+        <h1>Empowering Teams with Future-Ready Skills</h1>
+
+        <p>
+
+          We provide tailored training solutions to help your teams adapt,
+
+          innovate, and excel.
+
+        </p>
+
+        <button class="cta-btn">Get Training Plan</button>
+
+      </div>
+
+    </section>
+
+
+
+    <section class="about" id="about">
+
+      <img
+
+        src="https://images.unsplash.com/photo-1573497491208-6b1acb260507"
+
+        alt="Team discussion"
+
+      />
+
+      <div class="about-text">
+
+        <h2>About Spectrum</h2>
+
+        <ul>
+
+          <li>
+
+            Specialized in delivering cutting-edge technical training solutions.
+
+          </li>
+
+          <li>
+
+            Helping organizations upskill, adapt, and thrive in fast-changing
+
+            markets.
+
+          </li>
+
+          <li>
+
+            Tailored programs for corporate teams to ensure measurable results.
+
+          </li>
+
+        </ul>
+
+      </div>
+
+    </section>
+
+
+
+    <section style="text-align: center; padding: 40px 20px" id="strategy">
+
+      <h2>Our Training Strategies</h2>
+
+      <div
+
+        style="
+
+          display: flex;
+
+          justify-content: center;
+
+          gap: 20px;
+
+          flex-wrap: wrap;
+
+          margin-top: 20px;
+
+        "
+
+      >
+
+        <div
+
+          style="
+
+            background: #fff;
+
+            padding: 20px;
+
+            border-radius: 8px;
+
+            width: 220px;
+
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+          "
+
+        >
+
+          <i
+
+            class="fas fa-lightbulb"
+
+            style="font-size: 40px; color: #007bff"
+
+          ></i>
+
+          <h4>Awareness</h4>
+
+          <p>Understand emerging technologies and industry trends.</p>
+
+        </div>
+
+        <div
+
+          style="
+
+            background: #fff;
+
+            padding: 20px;
+
+            border-radius: 8px;
+
+            width: 220px;
+
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+          "
+
+        >
+
+          <i
+
+            class="fas fa-graduation-cap"
+
+            style="font-size: 40px; color: #007bff"
+
+          ></i>
+
+          <h4>Skill Adaptation</h4>
+
+          <p>Equip teams to apply skills in real work scenarios.</p>
+
+        </div>
+
+        <div
+
+          style="
+
+            background: #fff;
+
+            padding: 20px;
+
+            border-radius: 8px;
+
+            width: 220px;
+
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+          "
+
+        >
+
+          <i class="fas fa-hammer" style="font-size: 40px; color: #007bff"></i>
+
+          <h4>Build & Apply</h4>
+
+          <p>Hands-on projects to strengthen knowledge and innovation.</p>
+
+        </div>
+
+        <div
+
+          style="
+
+            background: #fff;
+
+            padding: 20px;
+
+            border-radius: 8px;
+
+            width: 220px;
+
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+          "
+
+        >
+
+          <i
+
+            class="fas fa-chart-line"
+
+            style="font-size: 40px; color: #007bff"
+
+          ></i>
+
+          <h4>Benchmark</h4>
+
+          <p>Evaluate performance and plan continuous improvement.</p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <footer id="contact">
+
+      <p>
+
+        Get in Touch<br />
+
+        Email: <a href="mailto:info@spectrum.com">info@spectrum.com</a> | Call:
+
+        +1 234 567 890
+
+      </p>
+
+      <p>© 2025 Spectrum. All rights reserved.</p>
+
+    </footer>
+
+
+
+    <vapi-widget
+
+      public-key="72f92ba2-8e5f-4d3a-b41b-5a0890f6c9e2"
+
+      assistant-id="d2b5cb23-06dd-43d3-91df-f7368692641e"
+
+      mode="voice"
+
+      theme="light"
+
+      base-bg-color="#ffffff"
+
+      accent-color="#14B8A6"
+
+      cta-button-color="#ffffff"
+
+      cta-button-text-color="#000000"
+
+      border-radius="large"
+
+      size="full"
+
+      position="bottom-right"
+
+      title="TALK WITH AI"
+
+      start-button-text="Start"
+
+      end-button-text="End Call"
+
+      chat-first-message="Hey, How can I help you today?"
+
+      chat-placeholder="Type your message..."
+
+      voice-show-transcript="true"
+
+      consent-required="true"
+
+      consent-title="Terms and conditions"
+
+      consent-content="By clicking "Agree," and each time I interact with this AI agent, I consent to the recording, storage, and sharing of my communications with third-party service providers, and as otherwise described in our Terms of Service."
+
+      consent-storage-key="vapi_widget_consent"
+
+    ></vapi-widget>
+
+    
+
+    <script src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js" async type="text/javascript"></script>
+
+
+
+    <script>
+
+      document.addEventListener('DOMContentLoaded', () => {
+
+        const reportButton = document.querySelector('.live-feed-btn');
+
+
+
+        // Create the notification bubble element dynamically
+
+        const notificationBubble = document.createElement('span');
+
+        notificationBubble.className = 'notification-bubble';
+
+        reportButton.appendChild(notificationBubble);
+
+        notificationBubble.style.display = 'none'; // Hide it initially
+
+
+
+        // Function to check storage and update the button's appearance
+
+        function updateButtonState() {
+
+          if (localStorage.getItem('newReportAvailable') === 'true') {
+
+            notificationBubble.style.display = 'flex'; // Show the bubble
+
+          } else {
+
+            notificationBubble.style.display = 'none'; // Hide the bubble
+
+          }
+
+        }
+
+
+
+        // When the user clicks the button, remove the notification
+
+        reportButton.addEventListener('click', () => {
+
+          localStorage.setItem('newReportAvailable', 'false');
+
+          updateButtonState(); // Instantly hide the bubble
+
+        });
+
+
+
+        // Listen for changes from other tabs (like viewer.html) in real-time
+
+        window.addEventListener('storage', (event) => {
+
+          if (event.key === 'newReportAvailable') { // Corrected this to lowercase 'a' to match views.html
+
+            updateButtonState();
+
+          }
+
+        });
+
+
+
+        setInterval(updateButtonState, 2000);
+
+
+
+        // Check the button state when the page first loads
+
+        updateButtonState();
+
+      });
+
+    </script>
+
+  </body>
+
 </html>
