@@ -281,79 +281,69 @@
     </footer>
 
     <script
+      id="vapi-script"
       src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js"
-      onload="initializeVapiWidget()"
       async
       type="text/javascript"
     ></script>
 
     <script>
-      // VAPI WIDGET INITIALIZATION FUNCTION
+      // Function to initialize the Vapi Widget
       function initializeVapiWidget() {
         if (window.VapiWidget) {
           const container = document.getElementById("vapi-container");
-          window.VapiWidget.create({
-            container: container,
-            // Configuration options from the original widget tag
-            publicKey: "72f92ba2-8e5f-4d3a-b41b-5a0890f6c9e2",
-            assistantId: "d2b5cb23-06dd-43d3-91df-f7368692641e",
-            mode: "voice",
-            theme: "light",
-            baseBgColor: "#ffffff",
-            accentColor: "#14B8A6",
-            ctaButtonColor: "#ffffff",
-            ctaButtonTextColor: "#000000",
-            borderRadius: "large",
-            title: "TALK WITH AI",
-            startButtonText: "Start",
-            endButtonText: "End Call",
-            chatFirstMessage: "Hey, How can I help you today?",
-            chatPlaceholder: "Type your message...",
-            voiceShowTranscript: true,
-            consentRequired: true,
-            consentTitle: "Terms and conditions",
-            consentContent:
-              'By clicking "Agree," and each time I interact with this AI agent, I consent to the recording, storage, and sharing of my communications with third-party service providers, and as otherwise described in our Terms of Service.',
-            consentStorageKey: "vapi_widget_consent",
-          });
+          if (container) {
+            window.VapiWidget.create({
+              container: container,
+              // Your configuration options
+              publicKey: "72f92ba2-8e5f-4d3a-b41b-5a0890f6c9e2",
+              assistantId: "d2b5cb23-06dd-43d3-91df-f7368692641e",
+              // ... add all your other options here ...
+              title: "TALK WITH AI",
+            });
+          }
         }
       }
 
-      // EXISTING SCRIPT FOR NOTIFICATION BUBBLE
+      // Wait for the DOM and the Vapi script to be ready
       document.addEventListener("DOMContentLoaded", () => {
-        const reportButton = document.querySelector(".live-feed-btn");
+        const vapiScript = document.getElementById('vapi-script');
+        
+        // Check if the script is already loaded
+        if (window.VapiWidget) {
+          initializeVapiWidget();
+        } else {
+          // If not, wait for it to load
+          vapiScript.addEventListener('load', initializeVapiWidget);
+        }
 
-        // Create the notification bubble element dynamically
+        // Your existing script for the notification bubble
+        const reportButton = document.querySelector(".live-feed-btn");
         const notificationBubble = document.createElement("span");
         notificationBubble.className = "notification-bubble";
         reportButton.appendChild(notificationBubble);
-        notificationBubble.style.display = "none"; // Hide it initially
-
-        // Function to check storage and update the button's appearance
+        notificationBubble.style.display = "none";
+        
         function updateButtonState() {
           if (localStorage.getItem("newReportAvailable") === "true") {
-            notificationBubble.style.display = "flex"; // Show the bubble
+            notificationBubble.style.display = "flex";
           } else {
-            notificationBubble.style.display = "none"; // Hide the bubble
+            notificationBubble.style.display = "none";
           }
         }
-
-        // When the user clicks the button, remove the notification
+        
         reportButton.addEventListener("click", () => {
           localStorage.setItem("newReportAvailable", "false");
-          updateButtonState(); // Instantly hide the bubble
+          updateButtonState();
         });
-
-        // Listen for changes from other tabs (like viewer.html) in real-time
+        
         window.addEventListener("storage", (event) => {
           if (event.key === "newReportAvailable") {
             updateButtonState();
           }
         });
-
+        
         setInterval(updateButtonState, 2000);
-
-        // Check the button state when the page first loads
         updateButtonState();
       });
     </script>
