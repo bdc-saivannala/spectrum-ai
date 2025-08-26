@@ -132,7 +132,7 @@
         border: 2px solid white;
       }
       
-      /* --- NEW STYLES FOR CUSTOM VAPI CONTAINER --- */
+      /* --- STYLES FOR CUSTOM VAPI CONTAINER --- */
       #my-vapi-container {
         width: 100%;
         max-width: 450px; /* Made it a bit wider */
@@ -313,8 +313,11 @@
     <script src="https://unpkg.com/@vapi-ai/web/dist/vapi.umd.js"></script>
 
     <script>
-      // --- EXISTING SCRIPT FOR NOTIFICATION BUBBLE ---
+      // The DOMContentLoaded event ensures that this code runs only after the
+      // entire page, including the Vapi SDK script, is fully loaded.
       document.addEventListener('DOMContentLoaded', () => {
+        
+        // --- EXISTING SCRIPT FOR NOTIFICATION BUBBLE ---
         const reportButton = document.querySelector('.live-feed-btn');
         const notificationBubble = document.createElement('span');
         notificationBubble.className = 'notification-bubble';
@@ -342,49 +345,50 @@
 
         setInterval(updateButtonState, 2000);
         updateButtonState();
-      });
-      
-      // --- NEW SCRIPT FOR CUSTOM VAPI UI ---
-      const callButton = document.getElementById('call-button');
-      const statusDisplay = document.getElementById('status-display');
+        
+        // --- NEW SCRIPT FOR CUSTOM VAPI UI (MOVED INSIDE) ---
+        const callButton = document.getElementById('call-button');
+        const statusDisplay = document.getElementById('status-display');
 
-      const vapi = new Vapi('72f92ba2-8e5f-4d3a-b41b-5a0890f6c9e2');
-      let isCallActive = false;
+        // Now that the page is loaded, the 'Vapi' class is guaranteed to be defined.
+        const vapi = new Vapi('72f92ba2-8e5f-4d3a-b41b-5a0890f6c9e2');
+        let isCallActive = false;
 
-      callButton.addEventListener('click', () => {
-        if (isCallActive) {
-          vapi.stop();
-        } else {
-          vapi.start('d2b5cb23-06dd-43d3-91df-f7368692641e');
-        }
-      });
+        callButton.addEventListener('click', () => {
+          if (isCallActive) {
+            vapi.stop();
+          } else {
+            vapi.start('d2b5cb23-06dd-4d3-91df-f7368692641e');
+          }
+        });
 
-      vapi.on('call-start', () => {
-        isCallActive = true;
-        statusDisplay.textContent = 'Call connected! Listening...';
-        callButton.textContent = 'Stop Call';
-        callButton.classList.add('in-call');
-      });
+        vapi.on('call-start', () => {
+          isCallActive = true;
+          statusDisplay.textContent = 'Call connected! Listening...';
+          callButton.textContent = 'Stop Call';
+          callButton.classList.add('in-call');
+        });
 
-      vapi.on('call-end', () => {
-        isCallActive = false;
-        statusDisplay.textContent = 'Call has ended.';
-        callButton.textContent = 'Start Call';
-        callButton.classList.remove('in-call');
-      });
+        vapi.on('call-end', () => {
+          isCallActive = false;
+          statusDisplay.textContent = 'Call has ended.';
+          callButton.textContent = 'Start Call';
+          callButton.classList.remove('in-call');
+        });
 
-      vapi.on('message', (message) => {
-        if (message.role === 'assistant' && message.type === 'transcript' && message.transcriptType === 'final') {
-          statusDisplay.textContent = message.transcript;
-        }
-      });
-      
-      vapi.on('error', (error) => {
-        console.error(error);
-        statusDisplay.textContent = `Error: ${error.message}`;
-        isCallActive = false;
-        callButton.textContent = 'Start Call';
-        callButton.classList.remove('in-call');
+        vapi.on('message', (message) => {
+          if (message.role === 'assistant' && message.type === 'transcript' && message.transcriptType === 'final') {
+            statusDisplay.textContent = message.transcript;
+          }
+        });
+        
+        vapi.on('error', (error) => {
+          console.error(error);
+          statusDisplay.textContent = `Error: ${error.message}`;
+          isCallActive = false;
+          callButton.textContent = 'Start Call';
+          callButton.classList.remove('in-call');
+        });
       });
     </script>
   </body>
