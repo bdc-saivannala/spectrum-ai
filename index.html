@@ -131,6 +131,44 @@
         align-items: center;
         border: 2px solid white;
       }
+      
+      /* --- NEW STYLES FOR CUSTOM VAPI CONTAINER --- */
+      #my-vapi-container {
+        width: 100%;
+        max-width: 450px; /* Made it a bit wider */
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+      #status-display {
+        margin: 20px 0;
+        padding: 15px;
+        background-color: #e9ecef;
+        border-radius: 8px;
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        color: #333;
+      }
+      #call-button {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        font-weight: bold;
+        color: white;
+        background-color: #28a745; /* Green for 'Start' */
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      #call-button.in-call {
+        background-color: #dc3545; /* Red for 'Stop' */
+      }
     </style>
   </head>
   <body>
@@ -253,34 +291,15 @@
         </div>
       </div>
     </section>
-    
+
     <section style="display: flex; justify-content: center; padding: 40px 20px; background-color: #f9f9f9;">
-    <div style="width: 400px; border: 1px solid #ddd; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"> 
-        <vapi-widget
-            public-key="72f92ba2-8e5f-4d3a-b41b-5a0890f6c9e2"
-            assistant-id="d2b5cb23-06dd-43d3-91df-f7368692641e"
-            mode="voice"
-            theme="light"
-            base-bg-color="#ffffff"
-            accent-color="#14B8A6"
-            cta-button-color="#ffffff"
-            cta-button-text-color="#000000"
-            border-radius="large"
-            size="full"
-            title="TALK WITH AI"
-            start-button-text="Start"
-            end-button-text="End Call"
-            chat-first-message="Hey, How can I help you today?"
-            chat-placeholder="Type your message..."
-            voice-show-transcript="true"
-            consent-required="true"
-            consent-title="Terms and conditions"
-            consent-content="By clicking 'Agree,' and each time I interact with this AI agent, I consent to the recording, storage, and sharing of my communications with third-party service providers, and as otherwise described in our Terms of Service."
-            consent-storage-key="vapi_widget_consent"
-            
-            ></vapi-widget>
-    </div>
-</section>
+        <div id="my-vapi-container">
+            <h2>Talk with our AI Assistant</h2>
+            <p>Click the button below to start a conversation.</p>
+            <div id="status-display">Call has not started.</div>
+            <button id="call-button">Start Call</button>
+        </div>
+    </section>
 
     <footer id="contact">
       <p>
@@ -291,44 +310,81 @@
       <p>© 2025 Spectrum. All rights reserved.</p>
     </footer>
 
-    <script src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js" async type="text/javascript"></script>
+    <script src="https://unpkg.com/@vapi-ai/web/dist/vapi.umd.js"></script>
 
     <script>
+      // --- EXISTING SCRIPT FOR NOTIFICATION BUBBLE ---
       document.addEventListener('DOMContentLoaded', () => {
         const reportButton = document.querySelector('.live-feed-btn');
-
-        // Create the notification bubble element dynamically
         const notificationBubble = document.createElement('span');
         notificationBubble.className = 'notification-bubble';
         reportButton.appendChild(notificationBubble);
-        notificationBubble.style.display = 'none'; // Hide it initially
+        notificationBubble.style.display = 'none';
 
-        // Function to check storage and update the button's appearance
         function updateButtonState() {
           if (localStorage.getItem('newReportAvailable') === 'true') {
-            notificationBubble.style.display = 'flex'; // Show the bubble
+            notificationBubble.style.display = 'flex';
           } else {
-            notificationBubble.style.display = 'none'; // Hide the bubble
+            notificationBubble.style.display = 'none';
           }
         }
 
-        // When the user clicks the button, remove the notification
         reportButton.addEventListener('click', () => {
           localStorage.setItem('newReportAvailable', 'false');
-          updateButtonState(); // Instantly hide the bubble
+          updateButtonState();
         });
 
-        // Listen for changes from other tabs (like viewer.html) in real-time
         window.addEventListener('storage', (event) => {
-          if (event.key === 'newReportAvailable') { // Corrected this to lowercase 'a' to match views.html
+          if (event.key === 'newReportAvailable') {
             updateButtonState();
           }
         });
 
         setInterval(updateButtonState, 2000);
-
-        // Check the button state when the page first loads
         updateButtonState();
+      });
+      
+      // --- NEW SCRIPT FOR CUSTOM VAPI UI ---
+      const callButton = document.getElementById('call-button');
+      const statusDisplay = document.getElementById('status-display');
+
+      const vapi = new Vapi('72f92ba2-8e5f-4d3a-b41b-5a0890f6c9e2');
+      let isCallActive = false;
+
+      callButton.addEventListener('click', () => {
+        if (isCallActive) {
+          vapi.stop();
+        } else {
+          vapi.start('d2b5cb23-06dd-43d3-91df-f7368692641e');
+        }
+      });
+
+      vapi.on('call-start', () => {
+        isCallActive = true;
+        statusDisplay.textContent = 'Call connected! Listening...';
+        callButton.textContent = 'Stop Call';
+        callButton.classList.add('in-call');
+      });
+
+      vapi.on('call-end', () => {
+        isCallActive = false;
+        statusDisplay.textContent = 'Call has ended.';
+        callButton.textContent = 'Start Call';
+        callButton.classList.remove('in-call');
+      });
+
+      vapi.on('message', (message) => {
+        if (message.role === 'assistant' && message.type === 'transcript' && message.transcriptType === 'final') {
+          statusDisplay.textContent = message.transcript;
+        }
+      });
+      
+      vapi.on('error', (error) => {
+        console.error(error);
+        statusDisplay.textContent = `Error: ${error.message}`;
+        isCallActive = false;
+        callButton.textContent = 'Start Call';
+        callButton.classList.remove('in-call');
       });
     </script>
   </body>
