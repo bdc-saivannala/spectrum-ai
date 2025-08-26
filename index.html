@@ -157,6 +157,23 @@
       </div>
     </section>
 
+    <section style="padding: 50px 20px; background-color: #fff">
+      <h2 style="text-align: center; margin-bottom: 30px">
+        Talk with Our AI Assistant
+      </h2>
+      <div
+        id="vapi-container"
+        style="
+          max-width: 400px;
+          height: 600px;
+          margin: auto;
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+          border-radius: 12px;
+          overflow: hidden;
+        "
+      ></div>
+    </section>
+
     <section class="about" id="about">
       <img
         src="https://images.unsplash.com/photo-1573497491208-6b1acb260507"
@@ -263,60 +280,73 @@
       <p>© 2025 Spectrum. All rights reserved.</p>
     </footer>
 
-    <vapi-widget
-      public-key="72f92ba2-8e5f-4d3a-b41b-5a0890f6c9e2"
-      assistant-id="d2b5cb23-06dd-43d3-91df-f7368692641e"
-      mode="voice"
-      theme="light"
-      base-bg-color="#ffffff"
-      accent-color="#14B8A6"
-      cta-button-color="#ffffff"
-      cta-button-text-color="#000000"
-      border-radius="large"
-      size="full"
-      position="bottom-right"
-      title="TALK WITH AI"
-      start-button-text="Start"
-      end-button-text="End Call"
-      chat-first-message="Hey, How can I help you today?"
-      chat-placeholder="Type your message..."
-      voice-show-transcript="true"
-      consent-required="true"
-      consent-title="Terms and conditions"
-      consent-content="By clicking "Agree," and each time I interact with this AI agent, I consent to the recording, storage, and sharing of my communications with third-party service providers, and as otherwise described in our Terms of Service."
-      consent-storage-key="vapi_widget_consent"
-    ></vapi-widget>
-    
-    <script src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js" async type="text/javascript"></script>
+    <script
+      src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js"
+      onload="initializeVapiWidget()"
+      async
+      type="text/javascript"
+    ></script>
 
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const reportButton = document.querySelector('.live-feed-btn');
+      // VAPI WIDGET INITIALIZATION FUNCTION
+      function initializeVapiWidget() {
+        if (window.VapiWidget) {
+          const container = document.getElementById("vapi-container");
+          window.VapiWidget.create({
+            container: container,
+            // Configuration options from the original widget tag
+            publicKey: "72f92ba2-8e5f-4d3a-b41b-5a0890f6c9e2",
+            assistantId: "d2b5cb23-06dd-43d3-91df-f7368692641e",
+            mode: "voice",
+            theme: "light",
+            baseBgColor: "#ffffff",
+            accentColor: "#14B8A6",
+            ctaButtonColor: "#ffffff",
+            ctaButtonTextColor: "#000000",
+            borderRadius: "large",
+            title: "TALK WITH AI",
+            startButtonText: "Start",
+            endButtonText: "End Call",
+            chatFirstMessage: "Hey, How can I help you today?",
+            chatPlaceholder: "Type your message...",
+            voiceShowTranscript: true,
+            consentRequired: true,
+            consentTitle: "Terms and conditions",
+            consentContent:
+              'By clicking "Agree," and each time I interact with this AI agent, I consent to the recording, storage, and sharing of my communications with third-party service providers, and as otherwise described in our Terms of Service.',
+            consentStorageKey: "vapi_widget_consent",
+          });
+        }
+      }
+
+      // EXISTING SCRIPT FOR NOTIFICATION BUBBLE
+      document.addEventListener("DOMContentLoaded", () => {
+        const reportButton = document.querySelector(".live-feed-btn");
 
         // Create the notification bubble element dynamically
-        const notificationBubble = document.createElement('span');
-        notificationBubble.className = 'notification-bubble';
+        const notificationBubble = document.createElement("span");
+        notificationBubble.className = "notification-bubble";
         reportButton.appendChild(notificationBubble);
-        notificationBubble.style.display = 'none'; // Hide it initially
+        notificationBubble.style.display = "none"; // Hide it initially
 
         // Function to check storage and update the button's appearance
         function updateButtonState() {
-          if (localStorage.getItem('newReportAvailable') === 'true') {
-            notificationBubble.style.display = 'flex'; // Show the bubble
+          if (localStorage.getItem("newReportAvailable") === "true") {
+            notificationBubble.style.display = "flex"; // Show the bubble
           } else {
-            notificationBubble.style.display = 'none'; // Hide the bubble
+            notificationBubble.style.display = "none"; // Hide the bubble
           }
         }
 
         // When the user clicks the button, remove the notification
-        reportButton.addEventListener('click', () => {
-          localStorage.setItem('newReportAvailable', 'false');
+        reportButton.addEventListener("click", () => {
+          localStorage.setItem("newReportAvailable", "false");
           updateButtonState(); // Instantly hide the bubble
         });
 
         // Listen for changes from other tabs (like viewer.html) in real-time
-        window.addEventListener('storage', (event) => {
-          if (event.key === 'newReportAvailable') { // Corrected this to lowercase 'a' to match views.html
+        window.addEventListener("storage", (event) => {
+          if (event.key === "newReportAvailable") {
             updateButtonState();
           }
         });
