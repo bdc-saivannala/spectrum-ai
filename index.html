@@ -295,33 +295,32 @@
           if (container) {
             window.VapiWidget.create({
               container: container,
-              // Your configuration options
-              public-key="72f92ba2-8e5f-4d3a-b41b-5a0890f6c9e2"
-              assistant-id="d2b5cb23-06dd-43d3-91df-f7368692641e"
-              mode="voice"
-              theme="light"
-              base-bg-color="#ffffff"
-              accent-color="#14B8A6"
-              cta-button-color="#ffffff"
-              cta-button-text-color="#000000"
-              border-radius="large"
-              size="full"
-              position="bottom-right"
-              title="TALK WITH AI"
-              start-button-text="Start"
-              end-button-text="End Call"
-              chat-first-message="Hey, How can I help you today?"
-              chat-placeholder="Type your message..."
-              voice-show-transcript="true"
-              consent-required="true"
-              consent-title="Terms and conditions"
-              consent-content="By clicking "Agree," and each time I interact with this AI agent, I consent to the recording, storage, and sharing of my communications with third-party service providers, and as otherwise described in our Terms of Service."
-              consent-storage-key="vapi_widget_consent"
+              // CORRECTED: All your options are now here
+              publicKey: "72f92ba2-8e5f-4d3a-b41b-5a0890f6c9e2",
+              assistantId: "d2b5cb23-06dd-43d3-91df-f7368692641e",
+              mode: "voice",
+              theme: "light",
+              baseBgColor: "#ffffff",
+              accentColor: "#14B8A6",
+              ctaButtonColor: "#ffffff",
+              ctaButtonTextColor: "#000000",
+              borderRadius: "large",
+              title: "TALK WITH AI",
+              startButtonText: "Start",
+              endButtonText: "End Call",
+              chatFirstMessage: "Hey, How can I help you today?",
+              chatPlaceholder: "Type your message...",
+              voiceShowTranscript: true,
+              consentRequired: true,
+              consentTitle: "Terms and conditions",
+              consentContent:
+                'By clicking "Agree," and each time I interact with this AI agent, I consent to the recording, storage, and sharing of my communications with third-party service providers, and as otherwise described in our Terms of Service.',
+              consentStorageKey: "vapi_widget_consent",
             });
           }
         }
       }
-
+    
       // Wait for the DOM and the Vapi script to be ready
       document.addEventListener("DOMContentLoaded", () => {
         const vapiScript = document.getElementById('vapi-script');
@@ -333,7 +332,7 @@
           // If not, wait for it to load
           vapiScript.addEventListener('load', initializeVapiWidget);
         }
-
+    
         // Your existing script for the notification bubble
         const reportButton = document.querySelector(".live-feed-btn");
         const notificationBubble = document.createElement("span");
